@@ -11,3 +11,5 @@ Já a lista ligada dupla, é aquela em que cada nó conhece o nó anterior e o n
 
 Para implementar uma lista ligada, é preciso: uma classe Node (nó) para criar novos nós, uma classe List para gerenciar os nós, e um poteiro
 dentro da classe List utilizado para indiciar o início da lista.
+
+<img src="linked-tree.png" alt="ilustrtation of linked-tree" />
