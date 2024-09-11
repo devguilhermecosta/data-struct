@@ -1,4 +1,6 @@
 #include <iostream>
+#include <optional>
+#include <windows.h>
 
 template <typename T>
 class Node
@@ -44,7 +46,7 @@ public:
     }
 
     // adiciona um novo nó ao início da lista
-    void push(T _value)
+    void insert(T _value)
     {
         Node<T>* node = new Node<T>(_value);
 
@@ -70,7 +72,7 @@ public:
     }
 
     // adiciona um novo nó ao final da lista
-    void pushBack(T _value)
+    void push(T _value)
     {
         Node<T>* node = new Node<T>(_value);
 
@@ -110,15 +112,24 @@ public:
     }
 
     // retorna o primeiro valor da lista (o head) ou null, se a lista estiver vazia
-    auto first()
+    std::optional<T> first()
     {
-        return head->value;
+        if (head)
+        {
+            return head->value;
+        }
+        return std::nullopt;
     }
 
     // retorna o último valor da lista ou null se a lista estiver vazia
-    T last()
+    std::optional<T> last()
     {
         Node<T>* temp = head;
+
+        if (empty())
+        {
+            return std::nullopt;
+        }
 
         if (!temp->next)
         {
@@ -134,14 +145,11 @@ public:
     }
 
     // procura um nó pelo seu valor
-    auto find(T _value)
+    bool find(T _value)
     {
-        Node<T>* current { nullptr };
-
-        // se a lista estiver vazia, retorna um ponteiro contendo nullptr;
         if (empty())
         {
-            return current;
+            return false;
         }
 
         // percorre toda a lista enquanto existirem nós e também enquanto o valor procurado não for encontrado
@@ -154,10 +162,10 @@ public:
         // após percorrer a lista, checa se o valor existe
         if (temp && temp->value == _value)
         {
-            current = temp;
+            return true;
         }
 
-        return current;
+        return false;
     }
 
     // deleta o último nó da lista
@@ -284,15 +292,39 @@ private:
 
 int main()
 {
-    setlocale(LC_ALL, "");
     system("cls");
+    SetConsoleOutputCP(65001);
 
     DubleList<int> numbers;
+    numbers.push(1);
+    numbers.push(10);
+    numbers.push(9);
+    numbers.push(7);
+    numbers.insert(8);
+    std::optional<int> firstNum = numbers.first();
+    std::optional<int> lastNum = numbers.last();
+    bool findedNum = numbers.find(10);
 
-    /*
-        Os métodos find(), first() e last() tem um sério problema de não tratamento de erro.
-        Quando nenhum valor é encontrado o programa quebra.
-        Quando 
-    */
+    if (firstNum)
+    {
+        std::cout << "O primeiro valor da lista é: " << *firstNum << '\n';
+    }
+
+    if (lastNum)
+    {
+        std::cout << "O último valor da lista é: " << *lastNum << '\n';
+    }
+
+    if (!findedNum)
+    {
+        std::cout << "O número 10 não foi encontrado\n";
+    }
+    else
+    {
+        std::cout << "O número 10 foi encontrado\n";
+    }
+
+    std::cout << "Terminei" << '\n';
+
     return 0;
 }
