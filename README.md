@@ -1,2 +1,2 @@
 # data-struct
-Esse repositório possui exemplos de estruturas de dados, criados em C++.
+Esse repositório possui exemplos de estruturas de dados, criados em diferentes linguagens.
